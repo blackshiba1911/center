@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>承樺的數位工具箱 | Project Portal</title>
+  <style>
+    :root {
+      --bg-color: #F7F3EE;         /* 溫潤燕麥奶茶底色 */
+      --card-bg: #FFFFFF;          /* 純白卡片背景 */
+      --card-border: #E6DDD3;      /* 淺可可邊框 */
+      --primary-brown: #6B5344;    /* 深焙咖啡主色 */
+      --accent-tan: #B08968;       /* 焦糖奶茶強調色 */
+      --text-main: #3D312A;        /* 深棕文字 */
+      --text-muted: #8C7A6B;       /* 柔和灰棕副標 */
+      --badge-bg: #EFE7DE;         /* 標籤底色 */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary-brown);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Bento Grid 卡片網格 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 4px 12px rgba(107, 83, 68, 0.04);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-tan);
+      box-shadow: 0 10px 24px rgba(107, 83, 68, 0.1);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: var(--badge-bg);
+      color: var(--primary-brown);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-box svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background-color: var(--badge-bg);
+      color: var(--primary-brown);
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      color: var(--primary-brown);
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .card-footer {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-tan);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>數位工具與規劃系統</h1>
+      <p>點擊下方圖示卡片，開啟對應的線上試算與管理工具</p>
+    </header>
+
+    <main class="grid" id="portal-grid"></main>
+
+    <footer>
+      &copy; 2026 承樺 | Hosted on GitHub Pages
+    </footer>
+  </div>
+
+  <script>
+    // 內建常用向量圖示庫
+    const icons = {
+      chart: `<svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>`,
+      shield: `<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>`,
+      calculator: `<svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>`,
+      users: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`
+    };
+
+    // 在這裡統一管理你架設的所有網站連結
+    const projects = [
+      {
+        title: "團隊活動週報追蹤",
+        description: "每週活動量數據紀錄、歷史回溯與跨裝置雲端同步系統。",
+        url: "https://blackshiba1911.github.io/weekly-control/",
+        badge: "團隊管理",
+        icon: "users"
+      },
+      {
+        title: "稅源預留與資產配置試算",
+        description: "整合法規扣除額與資產流動性比例之全方位規劃試算工具。",
+        url: "https://blackshiba1911.github.io/", // 請替換為你的實際專案路徑
+        badge: "理財試算",
+        icon: "shield"
+      },
+      {
+        title: "財務目標與缺口反推計算器",
+        description: "支援單筆與定期定額複利終值試算、缺口反推與即時圓餅圖分析。",
+        url: "https://blackshiba1911.github.io/", // 請替換為你的實際專案路徑
+        badge: "財務規劃",
+        icon: "calculator"
+      }
+    ];
+
+    const grid = document.getElementById('portal-grid');
+    projects.forEach(item => {
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = item.url;
+      card.target = '_blank';
+      card.rel = 'noopener noreferrer';
+      card.innerHTML = `
+        <div>
+          <div class="card-top">
+            <div class="icon-box">${icons[item.icon] || icons.chart}</div>
+            <span class="badge">${item.badge}</span>
+          </div>
+          <h2>${item.title}</h2>
+          <p>${item.description}</p>
+        </div>
+        <div class="card-footer">開啟工具 &rarr;</div>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
