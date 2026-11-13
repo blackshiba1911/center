@@ -147,6 +147,40 @@
       font-size: 0.85rem;
       color: var(--text-muted);
     }
+        /* 優化手機與平板的觸控回饋，移除瀏覽器預設的藍色點擊閃爍框 */
+    .card {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* 手指按下卡片時的微縮回饋感 */
+    .card:active {
+      transform: scale(0.98);
+      border-color: var(--accent-tan);
+    }
+
+    /* 手機版螢幕專屬比例微調（寬度小於 600px 時自動套用） */
+    @media (max-width: 600px) {
+      body {
+        padding: 24px 16px; /* 縮小手機上下左右的留白，讓第一屏能看到更多卡片 */
+      }
+
+      header {
+        margin-bottom: 24px;
+      }
+
+      header h1 {
+        font-size: 1.45rem; /* 避免標題在窄螢幕手機上強制折行 */
+      }
+
+      .grid {
+        gap: 14px; /* 讓手機版卡片間距更緊湊好滑動 */
+      }
+
+      .card {
+        padding: 18px 20px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -238,6 +272,7 @@
       `;
       grid.appendChild(card);
     });
+    
   </script>
 </body>
 </html>
